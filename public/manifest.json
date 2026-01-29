@@ -1,0 +1,10 @@
+{
+    "name" : "Turbo",
+    "description" : "A web3 wallet",
+    "version" : "1.0",
+    "manifest_version" : 3,
+    "action": {
+        "default_popup": "index.html",
+        "default_title": "Turbo Wallet"
+    }
+}
