@@ -1,8 +1,10 @@
 import React from "react";
 import { PlusCircle, Download, ChevronLeft, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useUIStore } from "@/store/ui.store";
 
 export const WalletSetupOptions = () => {
+  const {setScreen} = useUIStore();
   return (
     <div className="w-[360px] h-[600px] bg-[#1a1b1e] flex flex-col p-6 text-white relative overflow-hidden">
       
@@ -28,6 +30,10 @@ export const WalletSetupOptions = () => {
         <Button
           variant="default"
           className="w-full bg-blue-500 hover:bg-blue-600 py-7 font-semibold "
+          onClick={()=>{
+            setScreen("MNEMONICDISPLAY")
+          }}
+          
         >
           Create Wallet
         </Button>

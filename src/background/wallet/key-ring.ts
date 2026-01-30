@@ -4,7 +4,7 @@ import { derivePath } from "ed25519-hd-key";
 import nacl from "tweetnacl";
 
 class KeyRing {
-    generatedMnemonic : string | null = null;
+    private generatedMnemonic : string | null = null;
     private keyPairMap : Map<string, Uint8Array> = new Map();
     public generateMnemonic() {
         const mnemonic = bip39.generateMnemonic();

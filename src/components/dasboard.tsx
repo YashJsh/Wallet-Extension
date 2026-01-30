@@ -10,8 +10,10 @@ import {
   Clock, 
   Settings 
 } from 'lucide-react';
+import { useUIStore } from '@/store/ui.store';
 
 const Dashboard = () => {
+  const {setScreen} = useUIStore();
   return (
     <div className="w-[360px] h-[600px] bg-[#1a1b1e] flex flex-col relative font-sans text-white overflow-hidden">
       
@@ -65,7 +67,11 @@ const Dashboard = () => {
           </div>
 
           <div className="flex flex-col items-center gap-3">
-            <button className="w-16 h-16 bg-[#25262b] hover:bg-[#2c2d33] text-white rounded-[22px] flex items-center justify-center border border-white/5 shadow-xl active:scale-90 transition-all cursor-pointer">
+            <button className="w-16 h-16 bg-[#25262b] hover:bg-[#2c2d33] text-white rounded-[22px] flex items-center justify-center border border-white/5 shadow-xl active:scale-90 transition-all cursor-pointer"
+            onClick={()=>{
+              setScreen("SWAP")
+            }}
+            >
               <RefreshCcw size={28} />
             </button>
             <span className="text-[10px] font-black tracking-widest text-gray-500">SWAP</span>

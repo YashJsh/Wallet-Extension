@@ -1,7 +1,9 @@
 import { ArrowRight, Zap } from 'lucide-react';
 import { Button } from './ui/button';
+import { useUIStore } from '@/store/ui.store';
 
 export const Welcome = () => {
+  const { setScreen } = useUIStore();
   return (
     <div className="w-[360px] h-[600px] bg-[#1a1b1e] flex flex-col items-center justify-center p-8 relative overflow-hidden font-sans text-white">
       <div className="absolute top-[-10%] left-[-10%] w-[150px] h-[150px] bg-blue-500/10 blur-[80px] rounded-full"></div>
@@ -26,8 +28,8 @@ export const Welcome = () => {
       </div>
 
       <Button 
-        className="bg-blue-600 hover:bg-blue-600"
-        onClick={() => console.log("Get Started Clicked")}
+        className="bg-blue-600 hover:bg-blue-600 cursor-pointer"
+        onClick={() => setScreen("CREATEPASSWORD")}
       >
         <span>Get Started</span>
         <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />

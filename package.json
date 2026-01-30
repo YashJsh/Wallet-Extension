@@ -22,13 +22,16 @@
     "ed25519-hd-key": "^1.3.0",
     "lucide-react": "^0.563.0",
     "pbkdf2": "^3.1.5",
+    "polyfill": "^0.1.0",
     "press-start-2p": "link:@types/@fontsource/press-start-2p",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "tailwind-merge": "^3.4.0",
     "tailwindcss": "^4.1.18",
     "tweetnacl": "^1.0.3",
-    "tweetnacl-util": "^0.15.1"
+    "tweetnacl-util": "^0.15.1",
+    "vite-plugin-node-polyfills": "^0.25.0",
+    "zustand": "^5.0.10"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",

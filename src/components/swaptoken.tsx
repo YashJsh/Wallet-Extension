@@ -8,20 +8,19 @@ import {
   Info
 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
+import { useUIStore } from '@/store/ui.store';
 
 const SwapPage = () => {
+  const {setScreen} = useUIStore();
   return (
     <div className="w-[360px] h-[600px] bg-[#1a1b1e] flex flex-col p-6 font-sans text-white relative overflow-hidden">
       
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
-        <button className="w-10 h-10 -ml-2 flex items-center justify-center rounded-full hover:bg-white/5 transition text-gray-400">
+        <Button className="w-10 h-10 -ml-2 "variant={"ghost"} onClick={()=>{setScreen("HOME")}}>
           <ChevronLeft size={24} />
-        </button>
-        <h1 className="text-lg font-bold tracking-tight">Swap</h1>
-        <button className="w-10 h-10 -mr-2 flex items-center justify-center rounded-full hover:bg-white/5 transition text-gray-400">
-          <Settings2 size={20} />
-        </button>
+        </Button>
+        <h1 className="text-lg font-bold tracking-tighter uppercase">Swap</h1>
       </div>
 
       <div className="flex-1 flex flex-col gap-1 relative">

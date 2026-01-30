@@ -2,11 +2,20 @@ import { ChevronLeft, Lock, ShieldCheck, EyeOff } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useState } from 'react';
+import { useUIStore } from '@/store/ui.store';
 
 const CreatePassword = () => {
+    const {setScreen} = useUIStore();
+    const [password, setPassword] = useState<string | null>();
+    const [confirmPassword, setConfirmPassword] = useState<string | null>();
+    const createPassword = ()=>{
+        console.log("Create password clicked");
+        console.log(password, confirmPassword);
+        setScreen("WALLETSETUP")
+    }
     return (
         <div className="w-[360px] h-[600px] bg-[#1a1b1e] flex flex-col p-6 font-sans text-white relative overflow-hidden">
-
             {/* Header Section */}
             <div className="mt-6 mb-10 flex flex-col justify-center items-center text-center">
                 <h1 className="text-2xl font-bold mb-2">Create Password</h1>
@@ -31,6 +40,9 @@ const CreatePassword = () => {
                             type="password"
                             placeholder="At least 8 characters"
                             className="bg-[#131417] border-gray-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 h-12 rounded-xl"
+                            onChange={(e)=>{
+                                setPassword(e.target.value)
+                            }}
                         />
                         <Lock className="absolute right-4 top-3.5 text-gray-600 group-focus-within:text-blue-500 transition" size={18} />
                     </div>
@@ -49,6 +61,9 @@ const CreatePassword = () => {
                             type="password"
                             placeholder="Repeat password"
                             className="bg-[#131417] border-gray-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 h-12 rounded-xl"
+                            onChange={(e)=>{
+                                setConfirmPassword(e.target.value)
+                            }}
                         />
                         <ShieldCheck className="absolute right-4 top-3.5 text-gray-600 group-focus-within:text-blue-500 transition" size={18} />
                     </div>
@@ -67,7 +82,10 @@ const CreatePassword = () => {
             {/* Action Button */}
             <div className="pb-4">
                 <Button 
-                     className="bg-blue-600 hover:bg-blue-600 w-full font-semibold uppercase tracking-tighter"
+                     className="bg-blue-600 hover:bg-blue-600 w-full font-semibold uppercase tracking-tighter cursor-pointer" 
+                     onClick={()=>{
+                        createPassword()
+                     }}
                 >
                     Create Password
                 </Button>

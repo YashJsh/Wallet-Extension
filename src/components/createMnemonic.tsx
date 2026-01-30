@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
 import { ChevronLeft, Eye, Copy, AlertTriangle, Check } from 'lucide-react';
 import { Button } from "@/components/ui/button";
+import { useUIStore } from '@/store/ui.store';
+import keyring from '@/background/wallet/key-ring';
 
 export const MnemonicDisplay = () => {
   const [isRevealed, setIsRevealed] = useState(false);
   const [copied, setCopied] = useState(false);
+  const {setScreen} = useUIStore();
+
+  const data = keyring;
+  const mnemonic = data.generateMnemonic();
+
+  const words = mnemonic.split(" ");
 
   // Example mnemonic phrase
-  const words = [
-    "abandon", "ability", "able", "about", "above", "absent", 
-    "absorb", "abstract", "absurd", "abuse", "access", "accident"
-  ];
-
   const handleCopy = () => {
     navigator.clipboard.writeText(words.join(" "));
     setCopied(true);
@@ -85,6 +88,9 @@ export const MnemonicDisplay = () => {
         <Button 
           disabled={!isRevealed}
           className="w-full h-14 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-2xl disabled:opacity-50 transition-all"
+          onClick={()=>{
+            setScreen("HOME")
+          }}
         >
           I've saved it safely
         </Button>
