@@ -3,17 +3,47 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from 'react';
-import { useUIStore } from '@/store/ui.store';
+import { useUIStore } from '@/store/uiStore';
+import { KeyManagment } from '@/background/key-management';
 
 const CreatePassword = () => {
     const {setScreen} = useUIStore();
-    const [password, setPassword] = useState<string | null>();
-    const [confirmPassword, setConfirmPassword] = useState<string | null>();
-    const createPassword = ()=>{
-        console.log("Create password clicked");
-        console.log(password, confirmPassword);
-        setScreen("WALLETSETUP")
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [error, setError] = useState<string | null>(null);
+    
+    const validate = () => {
+    if (!password || !confirmPassword) {
+      return "Password is required";
     }
+
+    if (password.length < 8) {
+      return "Password must be at least 8 characters";
+    }
+
+    if (password !== confirmPassword) {
+      return "Passwords do not match";
+    }
+
+    return null;
+  };
+      const createPassword = () => {
+    const validationError = validate();
+
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
+
+    setError(null);
+    
+    console.log("Password created:", password);
+    KeyManagment(password);
+    setScreen("HOME");
+  };
+
+    const isValid =
+    password!.length >= 8 && password === confirmPassword;
     return (
         <div className="w-[360px] h-[600px] bg-[#1a1b1e] flex flex-col p-6 font-sans text-white relative overflow-hidden">
             {/* Header Section */}
@@ -62,7 +92,8 @@ const CreatePassword = () => {
                             placeholder="Repeat password"
                             className="bg-[#131417] border-gray-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 h-12 rounded-xl"
                             onChange={(e)=>{
-                                setConfirmPassword(e.target.value)
+                                setConfirmPassword(e.target.value);
+                                setError(null);
                             }}
                         />
                         <ShieldCheck className="absolute right-4 top-3.5 text-gray-600 group-focus-within:text-blue-500 transition" size={18} />
@@ -83,6 +114,7 @@ const CreatePassword = () => {
             <div className="pb-4">
                 <Button 
                      className="bg-blue-600 hover:bg-blue-600 w-full font-semibold uppercase tracking-tighter cursor-pointer" 
+                     disabled={!isValid}
                      onClick={()=>{
                         createPassword()
                      }}

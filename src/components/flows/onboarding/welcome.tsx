@@ -1,6 +1,6 @@
 import { ArrowRight, Zap } from 'lucide-react';
-import { Button } from './ui/button';
-import { useUIStore } from '@/store/ui.store';
+import { Button } from '@/components/ui/button';
+import { useUIStore } from '@/store/uiStore';
 
 export const Welcome = () => {
   const { setScreen } = useUIStore();
@@ -29,7 +29,7 @@ export const Welcome = () => {
 
       <Button 
         className="bg-blue-600 hover:bg-blue-600 cursor-pointer"
-        onClick={() => setScreen("CREATEPASSWORD")}
+        onClick={() => setScreen("WALLETSETUP")}
       >
         <span>Get Started</span>
         <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />

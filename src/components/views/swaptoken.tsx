@@ -1,14 +1,12 @@
-import React, { useState } from 'react';
+
 import { 
   ChevronLeft, 
   ChevronDown, 
   ArrowUpDown, 
-  Settings2,
-  Zap,
   Info
 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
-import { useUIStore } from '@/store/ui.store';
+import { useUIStore } from '@/store/uiStore';
 
 const SwapPage = () => {
   const {setScreen} = useUIStore();

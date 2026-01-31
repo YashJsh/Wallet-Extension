@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ChevronLeft, Eye, Copy, AlertTriangle, Check } from 'lucide-react';
 import { Button } from "@/components/ui/button";
-import { useUIStore } from '@/store/ui.store';
-import keyring from '@/background/wallet/key-ring';
+import { useUIStore } from '@/store/uiStore';
+import keyring from '@/background/keyring';
 
 export const MnemonicDisplay = () => {
   const [isRevealed, setIsRevealed] = useState(false);
@@ -89,7 +89,7 @@ export const MnemonicDisplay = () => {
           disabled={!isRevealed}
           className="w-full h-14 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-2xl disabled:opacity-50 transition-all"
           onClick={()=>{
-            setScreen("HOME")
+            setScreen("CREATEPASSWORD")
           }}
         >
           I've saved it safely

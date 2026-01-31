@@ -1,7 +1,7 @@
 import React from "react";
 import { PlusCircle, Download, ChevronLeft, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useUIStore } from "@/store/ui.store";
+import { useUIStore } from "@/store/uiStore";
 
 export const WalletSetupOptions = () => {
   const {setScreen} = useUIStore();
