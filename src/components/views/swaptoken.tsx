@@ -1,17 +1,16 @@
 import {
   ChevronLeft,
-  ChevronDown,
   ArrowUpDown,
-  Info
 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { useUIStore } from '@/store/uiStore';
 import { useEffect, useState } from "react";
-import { getQuote, tokens } from '@/background/swap';
+import { getQuote, swapTransaction, tokens } from '@/background/swap';
 import { convertValue } from '@/lib/conversion';
+import keyring from '@/background/keyring';
 
 const SwapPage = () => {
-  const { setScreen, balance } = useUIStore();
+  const { setScreen, balance, publicKey, loading, setLoading } = useUIStore();
   const [topToken, setTopToken] = useState("SOL");
   const [bottomToken, setBottomToken] = useState("USDC");
   const [bottomTokenRate, setBottomTokenRate] = useState("");
@@ -54,8 +53,14 @@ const SwapPage = () => {
     console.log("Handle swap tokens");
   };
 
-  const sendSwap = ()=>{
-    
+  const sendSwap = async () => {
+    setLoading(true);
+    if (!publicKey) return;
+    const keyPair = keyring.getKeyPair(publicKey);
+    if (!keyPair) return;
+    const response = await swapTransaction(quote, keyPair);
+    setLoading(false);
+    setScreen("HOME");
   }
 
   return (
@@ -154,7 +159,7 @@ const SwapPage = () => {
       {/* ACTION BUTTON */}
       <div className="pb-4">
         <Button className="w-full h-15 bg-blue-600 hover:bg-blue-500 text-white font-black text-base rounded-[20px] shadow-xl shadow-blue-900/20 transition-all active:scale-[0.98]"
-        onClick={sendSwap}
+          onClick={sendSwap}
         >
           Swap
         </Button>

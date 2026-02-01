@@ -10,7 +10,9 @@ type Screen =
   | "SEND"
   | "RECIEVE"
   | "SWAP"
-  | "APPROVE";
+  | "APPROVE"
+  | "SENDTOKEN"
+  ;
 
 type AppStatus = "BOOTING" | "LOCKED" | "UNLOCKED";
 

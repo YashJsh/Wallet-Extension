@@ -1,5 +1,5 @@
 import * as bip39 from "bip39";
-import { Keypair } from "@solana/web3.js";
+import { Keypair, PublicKey } from "@solana/web3.js";
 import { derivePath } from "ed25519-hd-key";
 import nacl from "tweetnacl";
 
@@ -27,6 +27,17 @@ class KeyRing {
         this.keyPairMap.set(keyPair.publicKey.toBase58(), keyPair.secretKey);
         return keyPair.publicKey;
     };
+    public getKeyPair(key : string){
+        const privateKey = this.keyPairMap.get(key);
+        if (!privateKey){
+            return;
+        }
+        const pair = {
+            publicKey : new PublicKey(key),
+            secretKey : privateKey
+        };
+        return pair;
+    }
 }
 
 const keyring = new KeyRing();

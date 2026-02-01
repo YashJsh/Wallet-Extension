@@ -36,7 +36,7 @@ export const getQuote = async (
     return { quoteResponse, data};
 }
 
-export const swapTransaction = async (quoteResponse : any, keyPair : { publicKey : string, secretKey : Uint8Array})=>{
+export const swapTransaction = async (quoteResponse : any, keyPair : { publicKey : PublicKey, secretKey : Uint8Array})=>{
     const swapTransaction = await axios.post(
         "https://api.jug.ag/swap/v1/swap",
         {

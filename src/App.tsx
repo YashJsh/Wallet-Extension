@@ -9,6 +9,7 @@ import { Welcome } from './components/flows/onboarding/welcome'
 import { useUIStore } from './store/uiStore'
 import { useEffect } from 'react'
 import UnlockWallet from './components/flows/auth/unlock'
+import SendToken from './components/views/sendToken'
 
 
 function App(){
@@ -47,21 +48,11 @@ function App(){
       return <ConfirmTransaction />;
     case "UNLOCK":
       return <UnlockWallet />
+    case "SENDTOKEN":
+      return <SendToken/>
     default:
       return null;
   }
-
-  return (
-    <div>
-      <Welcome/>
-      <CreatePassword/>
-      <WalletSetupOptions/>
-      <MnemonicDisplay/>
-      <Dashboard/>
-      <SwapPage/>
-      <ConfirmTransaction/>
-    </div>
-  )
 }
 
 export default App

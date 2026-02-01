@@ -75,8 +75,13 @@ const Dashboard = () => {
       <div className="px-8 pb-32">
         <div className="grid grid-cols-3 gap-6">
           <div className="flex flex-col items-center gap-3">
-            <button className="w-16 h-16 bg-blue-600 hover:bg-blue-500 text-white rounded-[22px] flex items-center justify-center shadow-lg shadow-blue-900/20 active:scale-90 transition-all cursor-pointer">
+            <button className="w-16 h-16 bg-blue-600 hover:bg-blue-500 text-white rounded-[22px] flex items-center justify-center shadow-lg shadow-blue-900/20 active:scale-90 transition-all cursor-pointer"
+              onClick={()=>{
+                setScreen("SENDTOKEN")
+              }}
+            >
               <ArrowUpRight size={28} />
+
             </button>
             <span className="text-[10px] font-black tracking-widest text-gray-500">SEND</span>
           </div>
