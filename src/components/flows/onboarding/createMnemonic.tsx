@@ -22,18 +22,18 @@ export const MnemonicDisplay = () => {
   };
 
   return (
-    <div className="w-[360px] h-[600px] bg-[#1a1b1e] flex flex-col p-6 font-sans text-white relative overflow-hidden">
+    <div className="w-[360px] h-[600px] bg-background flex flex-col p-6 font-sans text-foreground relative overflow-hidden">
       
       {/* Back Button */}
-      <button className="w-10 h-10 -ml-2 flex items-center justify-center rounded-full hover:bg-white/5 transition text-gray-400">
+      <button className="w-10 h-10 -ml-2 flex items-center justify-center rounded-full hover:bg-accent transition text-muted-foreground">
         <ChevronLeft size={24} />
       </button>
 
       {/* Header Section */}
       <div className="mt-4 mb-6">
         <h1 className="text-2xl font-bold mb-2">Secret Recovery Phrase</h1>
-        <p className="text-gray-400 text-xs leading-relaxed">
-          This phrase is the <span className="text-blue-400 font-bold">ONLY</span> way to recover your wallet. Write it down and store it safely.
+        <p className="text-muted-foreground text-xs leading-relaxed">
+          This phrase is the <span className="text-primary font-bold">ONLY</span> way to recover your wallet. Write it down and store it safely.
         </p>
       </div>
 
@@ -43,22 +43,22 @@ export const MnemonicDisplay = () => {
           {words.map((word, index) => (
             <div 
               key={index} 
-              className="bg-[#131417] border border-gray-800 rounded-xl p-2.5 flex items-center gap-2"
+              className="bg-card border border-border rounded-xl p-2.5 flex items-center gap-2"
             >
-              <span className="text-[10px] text-gray-600 font-mono w-4">{index + 1}</span>
-              <span className="text-sm font-medium text-gray-200">{word}</span>
+              <span className="text-[10px] text-muted-foreground font-mono w-4">{index + 1}</span>
+              <span className="text-sm font-medium text-foreground/80">{word}</span>
             </div>
           ))}
         </div>
 
         {/* Reveal Overlay */}
         {!isRevealed && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#1a1b1e]/40 rounded-2xl backdrop-blur-sm border border-white/5">
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-background/40 rounded-2xl backdrop-blur-sm border border-border">
             <button 
               onClick={() => setIsRevealed(true)}
               className="flex flex-col items-center gap-3 group/btn"
             >
-              <div className="p-4 bg-blue-600 rounded-full shadow-lg shadow-blue-900/40 group-hover/btn:scale-110 transition-transform">
+              <div className="p-4 bg-primary rounded-full shadow-lg group-hover/btn:scale-110 transition-transform">
                 <Eye size={24} />
               </div>
               <span className="text-sm font-bold tracking-wide">Click to reveal</span>
@@ -79,7 +79,7 @@ export const MnemonicDisplay = () => {
       <div className="mt-6 space-y-3">
         <button 
           onClick={handleCopy}
-          className="w-full flex items-center justify-center gap-2 py-2 text-sm font-semibold text-gray-400 hover:text-white transition"
+          className="w-full flex items-center justify-center gap-2 py-2 text-sm font-semibold text-muted-foreground hover:text-foreground transition"
         >
           {copied ? <Check size={16} className="text-green-500" /> : <Copy size={16} />}
           {copied ? "Copied to clipboard" : "Copy to clipboard"}
@@ -87,7 +87,7 @@ export const MnemonicDisplay = () => {
 
         <Button 
           disabled={!isRevealed}
-          className="w-full h-14 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-2xl disabled:opacity-50 transition-all"
+          className="w-full h-14 bg-primary hover:bg-primary/90 text-primary-foreground font-bold rounded-2xl disabled:opacity-50 transition-all"
           onClick={()=>{
             setScreen("CREATEPASSWORD")
           }}

@@ -41,17 +41,17 @@ const Dashboard = () => {
   }, [publicKey]);
 
   return (
-    <div className="w-[360px] h-[600px] bg-[#1a1b1e] flex flex-col relative font-sans text-white overflow-hidden">
+    <div className="w-[360px] h-[600px] bg-background flex flex-col relative font-sans text-foreground overflow-hidden">
 
       {/* Top Header */}
       <header className="flex justify-between items-center p-6 shrink-0">
-        <button className="w-10 h-10 flex items-center justify-center bg-[#131417] rounded-xl border border-white/5 cursor-pointer hover:bg-gray-800 transition" onClick={() => {
+        <button className="w-10 h-10 flex items-center justify-center bg-card rounded-xl border border-border cursor-pointer hover:bg-accent transition" onClick={() => {
           setScreen("INFO")
         }}>
-          <Wallet size={20} className="text-gray-400" />
+          <Wallet size={20} className="text-muted-foreground" />
         </button>
 
-        <button className="flex items-center gap-2 bg-[#131417] hover:bg-gray-800 px-4 py-2 rounded-full transition border border-white/5 shadow-inner">
+        <button className="flex items-center gap-2 bg-card hover:bg-accent px-4 py-2 rounded-full transition border border-border shadow-inner">
           <div>
 
           </div>
@@ -61,15 +61,15 @@ const Dashboard = () => {
 
       {/* Hero Balance Section */}
       <div className="flex-1 flex flex-col items-center justify-center px-6 -mt-12">
-        <div className="flex items-center gap-2 mb-4 px-3 py-1 bg-white/5 rounded-full border border-white/5 cursor-pointer hover:bg-white/10 transition group">
-          <span className="text-[10px] font-mono text-gray-500 group-hover:text-gray-300"
+        <div className="flex items-center gap-2 mb-4 px-3 py-1 bg-accent rounded-full border border-border cursor-pointer hover:bg-accent/80 transition group">
+          <span className="text-[10px] font-mono text-muted-foreground group-hover:text-foreground"
             onClick={() => {
               copy(publicKey!);
             }}
           >{publicKey}</span>
         </div>
 
-        <p className="text-gray-500 text-xs font-bold uppercase tracking-[0.2em] mb-2">Total Balance</p>
+        <p className="text-muted-foreground text-xs font-bold uppercase tracking-[0.2em] mb-2">Total Balance</p>
         <h1 className="text-2xl font-black tracking-tighter mb-4">{balance} SOL</h1>
       </div>
 
@@ -77,7 +77,7 @@ const Dashboard = () => {
       <div className="px-8 pb-32">
         <div className="grid grid-cols-3 gap-6">
           <div className="flex flex-col items-center gap-3">
-            <button className="w-16 h-16 bg-blue-600 hover:bg-blue-500 text-white rounded-[22px] flex items-center justify-center shadow-lg shadow-blue-900/20 active:scale-90 transition-all cursor-pointer"
+            <button className="w-16 h-16 bg-primary hover:bg-primary/90 text-primary-foreground rounded-[22px] flex items-center justify-center shadow-lg active:scale-90 transition-all cursor-pointer"
               onClick={() => {
                 setScreen("SENDTOKEN")
               }}
@@ -85,25 +85,25 @@ const Dashboard = () => {
               <ArrowUpRight size={28} />
 
             </button>
-            <span className="text-[10px] font-black tracking-widest text-gray-500">SEND</span>
+            <span className="text-[10px] font-black tracking-widest text-muted-foreground">SEND</span>
           </div>
 
           <div className="flex flex-col items-center gap-3">
-            <button className="w-16 h-16 bg-[#25262b] hover:bg-[#2c2d33] text-white rounded-[22px] flex items-center justify-center border border-white/5 shadow-xl active:scale-90 transition-all cursor-pointer">
+            <button className="w-16 h-16 bg-secondary hover:bg-secondary/80 text-secondary-foreground rounded-[22px] flex items-center justify-center border border-border shadow-xl active:scale-90 transition-all cursor-pointer">
               <ArrowDownLeft size={28} />
             </button>
-            <span className="text-[10px] font-black tracking-widest text-gray-500">RECEIVE</span>
+            <span className="text-[10px] font-black tracking-widest text-muted-foreground">RECEIVE</span>
           </div>
 
           <div className="flex flex-col items-center gap-3">
-            <button className="w-16 h-16 bg-[#25262b] hover:bg-[#2c2d33] text-white rounded-[22px] flex items-center justify-center border border-white/5 shadow-xl active:scale-90 transition-all cursor-pointer"
+            <button className="w-16 h-16 bg-secondary hover:bg-secondary/80 text-secondary-foreground rounded-[22px] flex items-center justify-center border border-border shadow-xl active:scale-90 transition-all cursor-pointer"
               onClick={() => {
                 setScreen("SWAP")
               }}
             >
               <RefreshCcw size={28} />
             </button>
-            <span className="text-[10px] font-black tracking-widest text-gray-500">SWAP</span>
+            <span className="text-[10px] font-black tracking-widest text-muted-foreground">SWAP</span>
           </div>
         </div>
       </div>

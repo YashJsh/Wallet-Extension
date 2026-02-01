@@ -45,11 +45,11 @@ const CreatePassword = () => {
     const isValid =
     password!.length >= 8 && password === confirmPassword;
     return (
-        <div className="w-[360px] h-[600px] bg-[#1a1b1e] flex flex-col p-6 font-sans text-white relative overflow-hidden">
+        <div className="w-[360px] h-[600px] bg-background flex flex-col p-6 font-sans text-foreground relative overflow-hidden">
             {/* Header Section */}
             <div className="mt-6 mb-10 flex flex-col justify-center items-center text-center">
                 <h1 className="text-2xl font-bold mb-2">Create Password</h1>
-                <p className="text-gray-400 text-sm">
+                <p className="text-muted-foreground text-sm">
                     This password will unlock your wallet only on this device.
                 </p>
             </div>
@@ -59,7 +59,7 @@ const CreatePassword = () => {
                 <div className="space-y-2">
                     <Label
                         htmlFor="password"
-                        className="text-xs font-semibold text-gray-400 uppercase tracking-wider"
+                        className="text-xs font-semibold text-muted-foreground uppercase tracking-wider"
                     >
                         New Password
                     </Label>
@@ -69,19 +69,19 @@ const CreatePassword = () => {
                             id="password"
                             type="password"
                             placeholder="At least 8 characters"
-                            className="bg-[#131417] border-gray-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 h-12 rounded-xl"
+                            className="bg-card border-border focus:border-primary focus:ring-1 focus:ring-primary h-12 rounded-xl"
                             onChange={(e)=>{
                                 setPassword(e.target.value)
                             }}
                         />
-                        <Lock className="absolute right-4 top-3.5 text-gray-600 group-focus-within:text-blue-500 transition" size={18} />
+                        <Lock className="absolute right-4 top-3.5 text-muted-foreground group-focus-within:text-primary transition" size={18} />
                     </div>
                 </div>
 
                 <div className="space-y-2">
                     <Label
                         htmlFor="confirmPassword"
-                        className="text-xs font-semibold text-gray-400 uppercase tracking-wider"
+                        className="text-xs font-semibold text-muted-foreground uppercase tracking-wider"
                     >
                         Confirm Password
                     </Label>
@@ -90,21 +90,21 @@ const CreatePassword = () => {
                             id="confirmPassword"
                             type="password"
                             placeholder="Repeat password"
-                            className="bg-[#131417] border-gray-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 h-12 rounded-xl"
+                            className="bg-card border-border focus:border-primary focus:ring-1 focus:ring-primary h-12 rounded-xl"
                             onChange={(e)=>{
                                 setConfirmPassword(e.target.value);
                                 setError(null);
                             }}
                         />
-                        <ShieldCheck className="absolute right-4 top-3.5 text-gray-600 group-focus-within:text-blue-500 transition" size={18} />
+                        <ShieldCheck className="absolute right-4 top-3.5 text-muted-foreground group-focus-within:text-primary transition" size={18} />
                     </div>
                 </div>
 
-                <div className="flex items-start gap-3 p-4 bg-blue-500/5 border border-blue-500/10 rounded-2xl">
+                <div className="flex items-start gap-3 p-4 bg-primary/5 border border-primary/10 rounded-2xl">
                     <div className="mt-0.5">
-                        <EyeOff size={14} className="text-blue-400" />
+                        <EyeOff size={14} className="text-primary" />
                     </div>
-                    <p className="text-[11px] text-blue-300/80 leading-relaxed">
+                    <p className="text-[11px] text-primary/80 leading-relaxed">
                         Turbo cannot recover this password. If you lose it, you will need your Secret Recovery Phrase to access your wallet.
                     </p>
                 </div>
@@ -113,7 +113,7 @@ const CreatePassword = () => {
             {/* Action Button */}
             <div className="pb-4">
                 <Button 
-                     className="bg-blue-600 hover:bg-blue-600 w-full font-semibold uppercase tracking-tighter cursor-pointer" 
+                     className="bg-primary hover:bg-primary/90 w-full font-semibold uppercase tracking-tighter cursor-pointer" 
                      disabled={!isValid}
                      onClick={()=>{
                         createPassword()

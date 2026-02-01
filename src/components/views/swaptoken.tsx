@@ -64,7 +64,7 @@ const SwapPage = () => {
   }
 
   return (
-    <div className="w-[360px] h-[600px] bg-[#1a1b1e] flex flex-col p-6 font-sans text-white relative overflow-hidden">
+    <div className="w-[360px] h-[600px] bg-background flex flex-col p-6 font-sans text-foreground relative overflow-hidden">
 
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
@@ -76,9 +76,9 @@ const SwapPage = () => {
 
       <div className="flex-1 flex flex-col gap-1 relative">
         {/* TOP INPUT (PAY) */}
-        <div className="bg-[#131417] p-5 rounded-[28px] border border-white/5 group focus-within:border-blue-500/30 transition-colors">
+        <div className="bg-card p-5 rounded-[28px] border border-border group focus-within:border-primary/30 transition-colors">
           <div className="flex justify-between items-center mb-3">
-            <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest">You Pay</span>
+            <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">You Pay</span>
           </div>
           <div className="flex items-center justify-between">
             <input
@@ -88,7 +88,7 @@ const SwapPage = () => {
                 setTopValue(val);
               }}
               placeholder="0.0"
-              className={`bg-transparent border-none text-3xl font-bold p-0  w-1/2 outline-none ${balance < Number(topValue) ? "text-red-500" : "text-white"}`}
+              className={`bg-transparent border-none text-3xl font-bold p-0  w-1/2 outline-none ${balance < Number(topValue) ? "text-destructive" : "text-foreground"}`}
             />
             <Button variant={"ghost"}>
               {topToken}
@@ -100,7 +100,7 @@ const SwapPage = () => {
         <div className="flex justify-center items-center mt-[-10px] z-10">
           <Button
             variant="outline"
-            className="rounded-full bg-[#131417] border border-white/10"
+            className="rounded-full bg-card border border-border"
             onClick={handleSwapTokens}
           >
             <ArrowUpDown size={18} />
@@ -108,16 +108,16 @@ const SwapPage = () => {
         </div>
 
         {/* BOTTOM INPUT (RECEIVE) */}
-        <div className="bg-[#131417] p-5 rounded-[28px] border border-white/5 pt-8">
+        <div className="bg-card p-5 rounded-[28px] border border-border pt-8">
           <div className="flex justify-between items-center mb-3">
-            <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest">You Receive</span>
+            <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">You Receive</span>
           </div>
           <div className="flex items-center justify-between">
             <input
               readOnly
               value={bottomValue}
               placeholder="0.0"
-              className="bg-transparent border-none text-3xl font-bold p-0  w-1/2 placeholder:text-gray-800 outline-none text-green-500"
+              className="bg-transparent border-none text-3xl font-bold p-0  w-1/2 placeholder:text-muted-foreground outline-none text-green-500"
             />
             <Button variant={"ghost"}>
               {bottomToken}
@@ -129,25 +129,25 @@ const SwapPage = () => {
         {
           bottomValue && <div className="mt-8 px-2 space-y-2">
             <div className="flex justify-between items-center">
-              <div className="flex items-center gap-1.5 text-gray-500">
+              <div className="flex items-center gap-1.5 text-muted-foreground">
                 <span className="text-xs font-medium capitalize tracking-tighter">conversion</span>
               </div>
-              <span className="text-xs font-bold text-gray-300">1 SOL ~ {bottomTokenRate} USDC</span>
+              <span className="text-xs font-bold text-foreground/80">1 SOL ~ {bottomTokenRate} USDC</span>
             </div>
             <div className="flex justify-between items-center">
-              <div className="flex items-center gap-1.5 text-gray-500">
+              <div className="flex items-center gap-1.5 text-muted-foreground">
                 <span className="text-xs font-medium">Slippage Tolerance</span>
               </div>
-              <span className="text-xs font-bold text-blue-400">0.5%</span>
+              <span className="text-xs font-bold text-primary">0.5%</span>
             </div>
             <div className="flex justify-between items-center">
-              <div className="flex items-center gap-1.5 text-gray-500">
+              <div className="flex items-center gap-1.5 text-muted-foreground">
                 <span className="text-xs font-medium">Route</span>
               </div>
-              <span className="text-xs font-bold text-blue-400">{transferVia}</span>
+              <span className="text-xs font-bold text-primary">{transferVia}</span>
             </div>
             <div className="flex justify-between items-center">
-              <div className="flex items-center gap-1.5 text-gray-500">
+              <div className="flex items-center gap-1.5 text-muted-foreground">
                 <span className="text-xs font-medium">Platform Fee</span>
               </div>
               <span className="text-xs font-bold">null</span>
@@ -158,7 +158,7 @@ const SwapPage = () => {
 
       {/* ACTION BUTTON */}
       <div className="pb-4">
-        <Button className="w-full h-15 bg-blue-600 hover:bg-blue-500 text-white font-black text-base rounded-[20px] shadow-xl shadow-blue-900/20 transition-all active:scale-[0.98]"
+        <Button className="w-full h-15 bg-primary hover:bg-primary/90 text-primary-foreground font-black text-base rounded-[20px] shadow-lg transition-all active:scale-[0.98]"
           onClick={sendSwap}
         >
           Swap

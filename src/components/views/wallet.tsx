@@ -6,10 +6,10 @@ import { useUIStore } from "@/store/uiStore";
 export const WalletSetupOptions = () => {
   const {setScreen} = useUIStore();
   return (
-    <div className="w-[360px] h-[600px] bg-[#1a1b1e] flex flex-col p-6 text-white relative overflow-hidden">
+    <div className="w-[360px] h-[600px] bg-background flex flex-col p-6 text-foreground relative overflow-hidden">
       
       {/* Decorative background glow */}
-      <div className="absolute top-0 right-0 w-[200px] h-[200px] bg-blue-600/5 blur-[100px] rounded-full" />
+      <div className="absolute top-0 right-0 w-[200px] h-[200px] bg-primary/5 blur-[100px] rounded-full" />
 
 
       {/* Header Section */}
@@ -17,9 +17,9 @@ export const WalletSetupOptions = () => {
         <h1 className="text-3xl font-bold mb-3 tracking-tighter uppercase">
           Set up wallet
         </h1>
-        <p className="text-gray-400 text-sm leading-relaxed">
+        <p className="text-muted-foreground text-sm leading-relaxed">
           Select how you'd like to get started with{" "}
-          <span className="text-white font-semibold">Turbo</span>.
+          <span className="text-foreground font-semibold">Turbo</span>.
         </p>
       </div>
 
@@ -29,7 +29,7 @@ export const WalletSetupOptions = () => {
         {/* Create New Wallet */}
         <Button
           variant="default"
-          className="w-full bg-blue-500 hover:bg-blue-600 py-7 font-semibold "
+          className="w-full bg-primary hover:bg-primary/90 py-7 font-semibold "
           onClick={()=>{
             setScreen("MNEMONICDISPLAY")
           }}
@@ -41,7 +41,7 @@ export const WalletSetupOptions = () => {
         {/* Import Existing Wallet */}
         <Button
           variant="default"
-          className="w-full h-auto py-5 bg-white text-black font-semibold " 
+          className="w-full h-auto py-5 bg-secondary text-secondary-foreground font-semibold " 
         >
           Import existing wallet
         </Button>
