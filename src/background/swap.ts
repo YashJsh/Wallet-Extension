@@ -1,6 +1,11 @@
 import { PublicKey, VersionedTransaction } from "@solana/web3.js";
 import axios from "axios";
 
+export const tokens = {
+    sol : "So11111111111111111111111111111111111111112",
+    usdc : "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
+}
+
 export const getQuote = async (
     inputMint : string,
     outputMint : string,
@@ -17,12 +22,18 @@ export const getQuote = async (
         ,
         {
             headers: {
-                'x-api-key': process.env.JUPITER_API_KEY,
+                'x-api-key': 'b341f5b4-8381-40f5-a140-82e4eb16cc3d',
             },
         }
     );
-    console.log(JSON.stringify(quoteResponse.data, null, 2));
-    return quoteResponse;
+    const data = {
+        outAmount : quoteResponse.data.outAmount,
+        slippage : quoteResponse.data.slippageBps,
+        usdValue : quoteResponse.data.swapUsdValue,
+        platformFee : quoteResponse.data.platformFee,
+        routeTaken : quoteResponse.data.routePlan[0].swapInfo.label
+    }
+    return { quoteResponse, data};
 }
 
 export const swapTransaction = async (quoteResponse : any, keyPair : { publicKey : string, secretKey : Uint8Array})=>{
@@ -34,7 +45,7 @@ export const swapTransaction = async (quoteResponse : any, keyPair : { publicKey
         },
         {
                 headers: {
-                    'x-api-key': process.env.JUPITER_API_KEY,
+                    'x-api-key': 'b341f5b4-8381-40f5-a140-82e4eb16cc3d',
                 },
         }
     )

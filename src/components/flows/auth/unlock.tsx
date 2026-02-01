@@ -25,7 +25,6 @@ export const UnlockWallet = () => {
 
   return (
     <div className="w-[360px] h-[600px] bg-[#1a1b1e] flex flex-col p-8 font-sans text-white relative overflow-hidden">
-      
       {/* Decorative Background Glows */}
       <div className="absolute top-[-20%] left-[-20%] w-[250px] h-[250px] bg-blue-600/10 blur-[100px] rounded-full"></div>
       <div className="absolute bottom-[-20%] right-[-20%] w-[250px] h-[250px] bg-indigo-600/10 blur-[100px] rounded-full"></div>

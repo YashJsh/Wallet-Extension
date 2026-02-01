@@ -13,12 +13,14 @@ import { useUIStore } from '@/store/uiStore';
 import keyring from '@/background/keyring';
 import { copy } from '@/lib/copyToClipboard';
 import { getAccountBalance } from '@/background/accountBalance';
+import { getTokenPrice } from '@/background/get-prices';
 
 const Dashboard = () => {
   const {setScreen, setPublicKey, publicKey, balance} = useUIStore();
 
   useEffect(()=>{
     const fn = async ()=>{
+      await getTokenPrice();
       console.log("GEnerating KeyPair");
       const key = await keyring.generateSolanaKeyPair();
       if (key){
@@ -66,7 +68,7 @@ const Dashboard = () => {
         </div>
 
         <p className="text-gray-500 text-xs font-bold uppercase tracking-[0.2em] mb-2">Total Balance</p>
-        <h1 className="text-2xl font-black tracking-tighter mb-4">100 SOL</h1>
+        <h1 className="text-2xl font-black tracking-tighter mb-4">{balance} SOL</h1>
       </div>
 
       {/* Main Action Buttons - Minimalist Row */}

@@ -1,5 +1,5 @@
 import './App.css'
-import ConfirmTransaction from './components/flows/swap/confirmSwap'
+import ConfirmTransaction from './components/flows/sign/confirmSwap'
 import MnemonicDisplay from './components/flows/onboarding/createMnemonic'
 import Dashboard from './components/views/dashboard'
 import CreatePassword from './components/flows/onboarding/password'
