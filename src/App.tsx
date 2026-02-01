@@ -10,6 +10,8 @@ import { useUIStore } from './store/uiStore'
 import { useEffect } from 'react'
 import UnlockWallet from './components/flows/auth/unlock'
 import SendToken from './components/views/sendToken'
+import { WalletManager } from './components/views/account_info'
+import { SpecificWalletAccount } from './components/views/specific_account'
 
 
 function App(){
@@ -50,6 +52,10 @@ function App(){
       return <UnlockWallet />
     case "SENDTOKEN":
       return <SendToken/>
+    case "INFO":
+      return <WalletManager/>
+    case "SPECIFIC_ACCOUNT":
+      return <SpecificWalletAccount/>
     default:
       return null;
   }

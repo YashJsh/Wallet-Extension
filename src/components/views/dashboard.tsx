@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
-import { 
-  ChevronDown, 
-  ScanLine, 
-  ArrowUpRight, 
-  ArrowDownLeft, 
-  RefreshCcw, 
-  Wallet, 
-  Clock, 
-  Settings 
+import {
+  ChevronDown,
+  ScanLine,
+  ArrowUpRight,
+  ArrowDownLeft,
+  RefreshCcw,
+  Wallet,
+  Clock,
+  Settings
 } from 'lucide-react';
 import { useUIStore } from '@/store/uiStore';
 import keyring from '@/background/keyring';
@@ -16,23 +16,23 @@ import { getAccountBalance } from '@/background/accountBalance';
 import { getTokenPrice } from '@/background/get-prices';
 
 const Dashboard = () => {
-  const {setScreen, setPublicKey, publicKey, balance} = useUIStore();
+  const { setScreen, setPublicKey, publicKey, balance } = useUIStore();
 
-  useEffect(()=>{
-    const fn = async ()=>{
+  useEffect(() => {
+    const fn = async () => {
       await getTokenPrice();
       console.log("GEnerating KeyPair");
       const key = await keyring.generateSolanaKeyPair();
-      if (key){
+      if (key) {
         setPublicKey(key.toBase58());
       }
     }
     fn();
   }, [])
 
-  useEffect(()=>{
-    const getBalance = async ()=>{
-      if (!publicKey){
+  useEffect(() => {
+    const getBalance = async () => {
+      if (!publicKey) {
         return;
       }
       getAccountBalance(publicKey);
@@ -42,17 +42,19 @@ const Dashboard = () => {
 
   return (
     <div className="w-[360px] h-[600px] bg-[#1a1b1e] flex flex-col relative font-sans text-white overflow-hidden">
-      
+
       {/* Top Header */}
       <header className="flex justify-between items-center p-6 shrink-0">
-        <div className="w-10 h-10 flex items-center justify-center bg-[#131417] rounded-xl border border-white/5 cursor-pointer hover:bg-gray-800 transition">
+        <button className="w-10 h-10 flex items-center justify-center bg-[#131417] rounded-xl border border-white/5 cursor-pointer hover:bg-gray-800 transition" onClick={() => {
+          setScreen("INFO")
+        }}>
           <Wallet size={20} className="text-gray-400" />
-        </div>
-        
-        <button className="flex items-center gap-2 bg-[#131417] hover:bg-gray-800 px-4 py-2 rounded-full transition border border-white/5 shadow-inner">
-        <div>
+        </button>
 
-        </div>
+        <button className="flex items-center gap-2 bg-[#131417] hover:bg-gray-800 px-4 py-2 rounded-full transition border border-white/5 shadow-inner">
+          <div>
+
+          </div>
           <span className="font-bold text-xs tracking-tighter">SOLANA</span>
         </button>
       </header>
@@ -61,7 +63,7 @@ const Dashboard = () => {
       <div className="flex-1 flex flex-col items-center justify-center px-6 -mt-12">
         <div className="flex items-center gap-2 mb-4 px-3 py-1 bg-white/5 rounded-full border border-white/5 cursor-pointer hover:bg-white/10 transition group">
           <span className="text-[10px] font-mono text-gray-500 group-hover:text-gray-300"
-            onClick={()=>{
+            onClick={() => {
               copy(publicKey!);
             }}
           >{publicKey}</span>
@@ -76,7 +78,7 @@ const Dashboard = () => {
         <div className="grid grid-cols-3 gap-6">
           <div className="flex flex-col items-center gap-3">
             <button className="w-16 h-16 bg-blue-600 hover:bg-blue-500 text-white rounded-[22px] flex items-center justify-center shadow-lg shadow-blue-900/20 active:scale-90 transition-all cursor-pointer"
-              onClick={()=>{
+              onClick={() => {
                 setScreen("SENDTOKEN")
               }}
             >
@@ -95,9 +97,9 @@ const Dashboard = () => {
 
           <div className="flex flex-col items-center gap-3">
             <button className="w-16 h-16 bg-[#25262b] hover:bg-[#2c2d33] text-white rounded-[22px] flex items-center justify-center border border-white/5 shadow-xl active:scale-90 transition-all cursor-pointer"
-            onClick={()=>{
-              setScreen("SWAP")
-            }}
+              onClick={() => {
+                setScreen("SWAP")
+              }}
             >
               <RefreshCcw size={28} />
             </button>

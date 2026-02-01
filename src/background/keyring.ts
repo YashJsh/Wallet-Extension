@@ -37,6 +37,10 @@ class KeyRing {
             secretKey : privateKey
         };
         return pair;
+    };
+    public getAllWallets(){
+        const keys = Array.from(this.keyPairMap.keys());
+        return keys;
     }
 }
 

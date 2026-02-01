@@ -12,6 +12,8 @@ type Screen =
   | "SWAP"
   | "APPROVE"
   | "SENDTOKEN"
+  | "INFO"
+  | "SPECIFIC_ACCOUNT"
   ;
 
 type AppStatus = "BOOTING" | "LOCKED" | "UNLOCKED";
@@ -31,6 +33,9 @@ type UIState = {
 
   balance: number;
   setBalance: (balance: number) => void;
+
+  selectedWallet : string | null;
+  setSelectedWallet : (publicKey : string)=> void;
 };
 
 export const useUIStore = create<UIState>((set) => ({
@@ -40,6 +45,7 @@ export const useUIStore = create<UIState>((set) => ({
 
   publicKey: null,
   balance: 0,
+  selectedWallet : null,
 
   setScreen: (screen) => set({ screen }),
   setLoading: (loading) => set({ loading }),
@@ -52,4 +58,11 @@ export const useUIStore = create<UIState>((set) => ({
 
   setAppStatus: (appStatus) =>
     set({ appStatus }),
+
+  setSelectedWallet : (publicKey : string)=>{
+    set({
+      selectedWallet : publicKey
+    })
+  }
 }));
+
