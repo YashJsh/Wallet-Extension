@@ -1,22 +1,27 @@
 import { useEffect } from 'react';
 import {
-  ChevronDown,
-  ScanLine,
   ArrowUpRight,
   ArrowDownLeft,
   RefreshCcw,
   Wallet,
-  Clock,
-  Settings
 } from 'lucide-react';
-import { useUIStore } from '@/store/uiStore';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useUIStore, type AppNetwork } from '@/store/uiStore';
 import keyring from '@/background/keyring';
 import { copy } from '@/lib/copyToClipboard';
 import { getAccountBalance } from '@/background/accountBalance';
 import { getTokenPrice } from '@/background/get-prices';
+import { Button } from '../ui/button';
+import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 
 const Dashboard = () => {
-  const { setScreen, setPublicKey, publicKey, balance } = useUIStore();
+  const { setScreen, setPublicKey, publicKey, balance, network, setNetwork, setBalance } = useUIStore();
 
   useEffect(() => {
     const fn = async () => {
@@ -28,17 +33,18 @@ const Dashboard = () => {
       }
     }
     fn();
-  }, [])
+  }, [publicKey]);
 
   useEffect(() => {
     const getBalance = async () => {
       if (!publicKey) {
         return;
       }
-      getAccountBalance(publicKey);
+      const bal = await getAccountBalance(publicKey, network);
+      setBalance(bal);
     }
     getBalance();
-  }, [publicKey]);
+  }, [publicKey, network]);
 
   return (
     <div className="w-[360px] h-[600px] bg-background flex flex-col relative font-sans text-foreground overflow-hidden">
@@ -70,7 +76,7 @@ const Dashboard = () => {
         </div>
 
         <p className="text-muted-foreground text-xs font-bold uppercase tracking-[0.2em] mb-2">Total Balance</p>
-        <h1 className="text-2xl font-black tracking-tighter mb-4">{balance} SOL</h1>
+        <h1 className="text-2xl font-black tracking-tighter mb-4">{balance/LAMPORTS_PER_SOL} SOL</h1>
       </div>
 
       {/* Main Action Buttons - Minimalist Row */}
@@ -89,14 +95,18 @@ const Dashboard = () => {
           </div>
 
           <div className="flex flex-col items-center gap-3">
-            <button className="w-16 h-16 bg-secondary hover:bg-secondary/80 text-secondary-foreground rounded-[22px] flex items-center justify-center border border-border shadow-xl active:scale-90 transition-all cursor-pointer">
+            <button className="w-16 h-16 bg-secondary hover:bg-secondary/80 text-secondary-foreground rounded-[22px] flex items-center justify-center border border-border shadow-xl active:scale-90 transition-all cursor-pointer"
+            onClick={()=>{
+              setScreen("RECIEVE");
+            }}>
               <ArrowDownLeft size={28} />
             </button>
             <span className="text-[10px] font-black tracking-widest text-muted-foreground">RECEIVE</span>
           </div>
 
           <div className="flex flex-col items-center gap-3">
-            <button className="w-16 h-16 bg-secondary hover:bg-secondary/80 text-secondary-foreground rounded-[22px] flex items-center justify-center border border-border shadow-xl active:scale-90 transition-all cursor-pointer"
+            <button className="w-16 h-16 bg-primary hover:bg-primary/90 text-secondary-foreground rounded-[22px] flex items-center justify-center border border-border shadow-xl active:scale-90 transition-all cursor-pointer"
+              disabled={network==="DEVNET"}
               onClick={() => {
                 setScreen("SWAP")
               }}
@@ -105,6 +115,20 @@ const Dashboard = () => {
             </button>
             <span className="text-[10px] font-black tracking-widest text-muted-foreground">SWAP</span>
           </div>
+        </div>
+        <div className='flex items-center justify-center mt-3 pt-2'>
+          <Select
+            value={network}
+            onValueChange={(value) => setNetwork(value as AppNetwork)}
+          >
+            <SelectTrigger className="h-8 text-[10px] font-bold uppercase tracking-widest bg-card border-border">
+              <SelectValue placeholder="Select Network" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="MAINNET" className="text-xs">Mainnet</SelectItem>
+              <SelectItem value="DEVNET" className="text-xs">Devnet</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
       </div>
     </div>

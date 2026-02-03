@@ -16,6 +16,7 @@ class KeyRing {
     public async generateSolanaKeyPair(){
         const mnemonic = localStorage.getItem("mnemonic");
         if (!mnemonic){
+            console.log("Mnemonic doesn't exists");
             return;
         }
         this.generatedMnemonic = mnemonic;

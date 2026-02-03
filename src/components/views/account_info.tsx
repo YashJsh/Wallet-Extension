@@ -1,10 +1,24 @@
 import { ChevronRight, Plus, Wallet, ChevronLeft } from 'lucide-react';
 import keyring from '@/background/keyring';
 import { useUIStore } from '@/store/uiStore';
+import { useEffect, useState } from 'react';
 
 export const WalletManager = () => {
-  const keys = keyring.getAllWallets();
-  const { setScreen, setSelectedWallet } = useUIStore();
+  const { setScreen, setSelectedWallet, setPublicKey } = useUIStore();
+  const [wallets, setWallets] = useState<string[]>([]);
+
+  const createWallet = async () => {
+    const publicKey = await keyring.generateSolanaKeyPair();
+    if (!publicKey) return;
+
+    setWallets(keyring.getAllWallets()); 
+    setPublicKey(publicKey.toBase58());
+    setScreen("HOME");
+  };
+
+  useEffect(() => {
+    setWallets(keyring.getAllWallets());
+  }, []);
 
   return (
     <div className="w-[360px] h-[600px] bg-background text-foreground flex flex-col p-6 font-sans relative">
@@ -29,13 +43,13 @@ export const WalletManager = () => {
 
       {/* Wallet List */}
       <div className="flex-1 space-y-3 overflow-y-auto pr-1 scrollbar-hide">
-        {keys.map((key, index) => (
+        {wallets.map((key, index) => (
           <button
             key={index}
             className="
               w-full group
-              bg-primary hover:bg-secondary/80
-              border border-border
+              bg-background hover:bg-background/80
+              border border-primary
               p-4 rounded-2xl
               flex items-center justify-between
               transition-all active:scale-[0.98]
@@ -71,7 +85,7 @@ export const WalletManager = () => {
 
             <ChevronRight
               size={18}
-              className="text-muted-foreground group-hover:text-primary-foreground transition-colors"
+              className="text-muted-foreground group-hover:text-primary transition-colors"
             />
           </button>
         ))}
@@ -87,12 +101,16 @@ export const WalletManager = () => {
             rounded-2xl
             flex items-center justify-center gap-2
             transition-all group
+            cursor-pointer
           "
+          onClick={() => {
+            createWallet();
+          }}
         >
-          <div className="p-1 bg-muted rounded-lg group-hover:bg-primary transition-colors">
+          <div className="p-1 bg-muted rounded-lg transition-colors">
             <Plus size={16} className="text-primary-" />
           </div>
-          <span className="text-sm font-bold text-primary-foreground group-hover:text-primary-foreground/10">
+          <span className="text-sm font-bold text-primary-foreground group-hover:text-primary-foreground">
             Create New Wallet
           </span>
         </button>

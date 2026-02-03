@@ -17,6 +17,7 @@ type Screen =
   ;
 
 type AppStatus = "BOOTING" | "LOCKED" | "UNLOCKED";
+export type AppNetwork = "MAINNET" | "DEVNET";
 
 type UIState = {
   screen: Screen;
@@ -36,6 +37,9 @@ type UIState = {
 
   selectedWallet : string | null;
   setSelectedWallet : (publicKey : string)=> void;
+
+  network : AppNetwork;
+  setNetwork : (s : AppNetwork)=>void
 };
 
 export const useUIStore = create<UIState>((set) => ({
@@ -47,6 +51,9 @@ export const useUIStore = create<UIState>((set) => ({
   balance: 0,
   selectedWallet : null,
 
+  network : "MAINNET",
+
+  setNetwork : (network : AppNetwork) => set({network : network}),
   setScreen: (screen) => set({ screen }),
   setLoading: (loading) => set({ loading }),
 

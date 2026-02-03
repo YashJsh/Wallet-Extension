@@ -1,4 +1,4 @@
-import { ChevronLeft, Lock, ShieldCheck, EyeOff } from 'lucide-react';
+import { Lock, ShieldCheck, EyeOff } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -98,6 +98,7 @@ const CreatePassword = () => {
                         />
                         <ShieldCheck className="absolute right-4 top-3.5 text-muted-foreground group-focus-within:text-primary transition" size={18} />
                     </div>
+                    {error && <p className="text-xs text-destructive mt-1">{error}</p>}
                 </div>
 
                 <div className="flex items-start gap-3 p-4 bg-primary/5 border border-primary/10 rounded-2xl">

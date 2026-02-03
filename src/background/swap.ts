@@ -29,7 +29,7 @@ export const getQuote = async (
     const data = {
         outAmount : quoteResponse.data.outAmount,
         slippage : quoteResponse.data.slippageBps,
-        usdValue : quoteResponse.data.swapUsdValue,
+        tokenValue : quoteResponse.data.swapUsdValue,
         platformFee : quoteResponse.data.platformFee,
         routeTaken : quoteResponse.data.routePlan[0].swapInfo.label
     }

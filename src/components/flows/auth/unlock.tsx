@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Zap, Eye, EyeOff, Unlock, HelpCircle } from 'lucide-react';
+import { Zap, Eye, EyeOff, Unlock } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { checkPassword } from '@/background/key-management';
