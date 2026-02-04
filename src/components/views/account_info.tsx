@@ -8,11 +8,11 @@ export const WalletManager = () => {
   const [wallets, setWallets] = useState<string[]>([]);
 
   const createWallet = async () => {
-    const publicKey = await keyring.generateSolanaKeyPair();
-    if (!publicKey) return;
+    // const publicKey = await keyring.generateSolanaKeyPair();
+    // if (!publicKey) return;
 
-    setWallets(keyring.getAllWallets()); 
-    setPublicKey(publicKey.toBase58());
+    // setWallets(keyring.getAllWallets()); 
+    // setPublicKey(publicKey.toBase58());
     setScreen("HOME");
   };
 
@@ -96,7 +96,7 @@ export const WalletManager = () => {
         <button
           className="
             w-full h-14
-            bg-secondary hover:bg-secondary/80
+            bg-primary hover:bg-primary/80
             border border-dashed border-border
             rounded-2xl
             flex items-center justify-center gap-2

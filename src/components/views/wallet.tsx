@@ -29,7 +29,7 @@ export const WalletSetupOptions = () => {
           variant="default"
           className="w-full bg-primary hover:bg-primary/90 py-7 font-semibold "
           onClick={()=>{
-            setScreen("MNEMONICDISPLAY")
+            setScreen("CREATEPASSWORD")
           }}
           
         >
@@ -37,12 +37,12 @@ export const WalletSetupOptions = () => {
         </Button>
 
         {/* Import Existing Wallet */}
-        <Button
+        {/* <Button
           variant="default"
           className="w-full h-auto py-5 bg-secondary text-secondary-foreground font-semibold " 
         >
           Import existing wallet
-        </Button>
+        </Button> */}
 
       </div>
     </div>

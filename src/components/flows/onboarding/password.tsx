@@ -4,46 +4,47 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from 'react';
 import { useUIStore } from '@/store/uiStore';
-import { KeyManagment } from '@/background/key-management';
+import { createPasswordVerifier } from '@/background/key-management';
 
 const CreatePassword = () => {
-    const {setScreen} = useUIStore();
+    const { setScreen, setPass } = useUIStore();
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState<string | null>(null);
-    
+
     const validate = () => {
-    if (!password || !confirmPassword) {
-      return "Password is required";
-    }
+        if (!password || !confirmPassword) {
+            return "Password is required";
+        }
 
-    if (password.length < 8) {
-      return "Password must be at least 8 characters";
-    }
+        if (password.length < 8) {
+            return "Password must be at least 8 characters";
+        }
 
-    if (password !== confirmPassword) {
-      return "Passwords do not match";
-    }
+        if (password !== confirmPassword) {
+            return "Passwords do not match";
+        }
 
-    return null;
-  };
-      const createPassword = () => {
-    const validationError = validate();
+        return null;
+    };
+    const createPassword = async () => {
+        const validationError = validate();
 
-    if (validationError) {
-      setError(validationError);
-      return;
-    }
+        if (validationError) {
+            setError(validationError);
+            return;
+        }
 
-    setError(null);
-    
-    console.log("Password created:", password);
-    KeyManagment(password);
-    setScreen("HOME");
-  };
+        setError(null);
+
+        console.log("Password created:", password);
+        setPass(password);
+        setScreen("MNEMONICDISPLAY");
+        await createPasswordVerifier(password);
+    };
 
     const isValid =
-    password!.length >= 8 && password === confirmPassword;
+        password!.length >= 8 && password === confirmPassword;
     return (
         <div className="w-[360px] h-[600px] bg-background flex flex-col p-6 font-sans text-foreground relative overflow-hidden">
             {/* Header Section */}
@@ -70,7 +71,7 @@ const CreatePassword = () => {
                             type="password"
                             placeholder="At least 8 characters"
                             className="bg-card border-border focus:border-primary focus:ring-1 focus:ring-primary h-12 rounded-xl"
-                            onChange={(e)=>{
+                            onChange={(e) => {
                                 setPassword(e.target.value)
                             }}
                         />
@@ -91,7 +92,7 @@ const CreatePassword = () => {
                             type="password"
                             placeholder="Repeat password"
                             className="bg-card border-border focus:border-primary focus:ring-1 focus:ring-primary h-12 rounded-xl"
-                            onChange={(e)=>{
+                            onChange={(e) => {
                                 setConfirmPassword(e.target.value);
                                 setError(null);
                             }}
@@ -113,12 +114,12 @@ const CreatePassword = () => {
 
             {/* Action Button */}
             <div className="pb-4">
-                <Button 
-                     className="bg-primary hover:bg-primary/90 w-full font-semibold uppercase tracking-tighter cursor-pointer" 
-                     disabled={!isValid}
-                     onClick={()=>{
+                <Button
+                    className="bg-primary hover:bg-primary/90 w-full font-semibold uppercase tracking-tighter cursor-pointer"
+                    disabled={!isValid}
+                    onClick={() => {
                         createPassword()
-                     }}
+                    }}
                 >
                     Create Password
                 </Button>

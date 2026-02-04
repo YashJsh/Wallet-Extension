@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ChevronLeft, Eye, Copy, AlertTriangle, Check } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { useUIStore } from '@/store/uiStore';
@@ -7,23 +7,46 @@ import keyring from '@/background/keyring';
 export const MnemonicDisplay = () => {
   const [isRevealed, setIsRevealed] = useState(false);
   const [copied, setCopied] = useState(false);
-  const {setScreen} = useUIStore();
+  const { setScreen, password, setPublicKey } = useUIStore();
+  const [mnemonic, setMnemonic] = useState<String | null>(null);
 
-  const data = keyring;
-  const mnemonic = data.generateMnemonic();
+  useEffect(() => {
+    if (!password) return;
 
-  const words = mnemonic.split(" ");
+    const run = async () => {
+      console.log("Runnign");
+      const mnem = await keyring.generateMnemonic(password);
+      setMnemonic(mnem);
+
+      const key = await keyring.generateSolanaKeyPair(password);
+      if (key) setPublicKey(key.toBase58());
+    };
+
+    run();
+  }, [password]);
+
+
+  if (!mnemonic) {
+    return (
+      <div className="w-[360px] h-[600px] flex items-center justify-center">
+        <span className="text-sm text-muted-foreground">
+          Generating recovery phrase…
+        </span>
+      </div>
+    );
+  }
+
 
   // Example mnemonic phrase
   const handleCopy = () => {
-    navigator.clipboard.writeText(words.join(" "));
+    navigator.clipboard.writeText(mnemonic?.split(" ").join(" "));
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
   return (
     <div className="w-[360px] h-[600px] bg-background flex flex-col p-6 font-sans text-foreground relative overflow-hidden">
-      
+
       {/* Back Button */}
       <button className="w-10 h-10 -ml-2 flex items-center justify-center rounded-full hover:bg-accent transition text-muted-foreground">
         <ChevronLeft size={24} />
@@ -40,9 +63,9 @@ export const MnemonicDisplay = () => {
       {/* Mnemonic Grid Container */}
       <div className="relative group flex-1">
         <div className={`grid grid-cols-3 gap-2 transition-all duration-500 ${!isRevealed ? 'blur-md select-none scale-[0.98]' : 'blur-0'}`}>
-          {words.map((word, index) => (
-            <div 
-              key={index} 
+          {mnemonic.split(" ").map((word, index) => (
+            <div
+              key={index}
               className="bg-card border border-border rounded-xl p-2.5 flex items-center gap-2"
             >
               <span className="text-[10px] text-muted-foreground font-mono w-4">{index + 1}</span>
@@ -54,7 +77,7 @@ export const MnemonicDisplay = () => {
         {/* Reveal Overlay */}
         {!isRevealed && (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-background/40 rounded-2xl backdrop-blur-sm border border-border">
-            <button 
+            <button
               onClick={() => setIsRevealed(true)}
               className="flex flex-col items-center gap-3 group/btn"
             >
@@ -69,15 +92,15 @@ export const MnemonicDisplay = () => {
 
       {/* Warning Box */}
       <div className="mt-6 p-4 bg-amber-500/10 border border-amber-500/20 rounded-2xl flex gap-3">
-        <AlertTriangle size={18} className="text-amber-500 shrink-0" />
-        <p className="text-[11px] text-amber-200/80 leading-normal">
+        <AlertTriangle size={18} className="text-red-500 shrink-0" />
+        <p className="text-[11px] text-red-500 leading-normal">
           Never share this phrase. Anyone with these words can take your funds forever.
         </p>
       </div>
 
       {/* Footer Actions */}
       <div className="mt-6 space-y-3">
-        <button 
+        <button
           onClick={handleCopy}
           className="w-full flex items-center justify-center gap-2 py-2 text-sm font-semibold text-muted-foreground hover:text-foreground transition"
         >
@@ -85,11 +108,11 @@ export const MnemonicDisplay = () => {
           {copied ? "Copied to clipboard" : "Copy to clipboard"}
         </button>
 
-        <Button 
+        <Button
           disabled={!isRevealed}
           className="w-full h-14 bg-primary hover:bg-primary/90 text-primary-foreground font-bold rounded-2xl disabled:opacity-50 transition-all"
-          onClick={()=>{
-            setScreen("CREATEPASSWORD")
+          onClick={() => {
+            setScreen("HOME")
           }}
         >
           I've saved it safely

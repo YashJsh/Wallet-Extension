@@ -22,8 +22,7 @@ function App() {
   const { screen, appStatus, setScreen, setAppStatus } = useUIStore();
 
   useEffect(() => {
-    const vaultExists = localStorage.getItem("Passcode");
-
+    const vaultExists = localStorage.getItem("PASSWORD_VERIFIER");
     if (vaultExists) {
       setAppStatus("LOCKED");
       setScreen("UNLOCK");

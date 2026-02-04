@@ -1,4 +1,3 @@
-import { useUIStore } from "@/store/uiStore";
 import axios from "axios";
 
 export const getAccountBalance = async (publicKey: string, network : string) => {

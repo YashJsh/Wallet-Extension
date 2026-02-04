@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { checkPassword } from '@/background/key-management';
 import { useUIStore } from '@/store/uiStore';
+import keyring from '@/background/keyring';
 
 export const UnlockWallet = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -11,7 +12,7 @@ export const UnlockWallet = () => {
   const [error, setError] = useState<string | null>();
   const { setScreen } = useUIStore();
 
-  const handleSubmit = ()=>{
+  const handleSubmit = async ()=>{
     if (!password){
         return;
     }    
@@ -20,6 +21,7 @@ export const UnlockWallet = () => {
         setError("Password didn't match");
         return;
     }
+    await keyring.generateSolanaKeyPair(password);
     setScreen("HOME");
   }
 

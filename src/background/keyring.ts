@@ -2,20 +2,30 @@ import * as bip39 from "bip39";
 import { Keypair, PublicKey } from "@solana/web3.js";
 import { derivePath } from "ed25519-hd-key";
 import nacl from "tweetnacl";
+import { keyManager } from "./safeStorage";
 
 class KeyRing {
-    private generatedMnemonic : string | null = null;
-    private keyPairMap : Map<string, Uint8Array> = new Map();
-    private index : number = 1;
-    public generateMnemonic() {
+    private generatedMnemonic: string | null = null;
+    private keyPairMap: Map<string, Uint8Array> = new Map();
+    private index: number;
+
+    constructor() {
+        this.index = Number(localStorage.getItem("wallet_index") ?? "1");
+    }
+
+    public async generateMnemonic(password: string) {
         const mnemonic = bip39.generateMnemonic();
         this.generatedMnemonic = mnemonic;
-        localStorage.setItem("mnemonic", mnemonic);
+        localStorage.setItem("wallet_index", "1");
+        this.index = 0;
+        await keyManager.GenerateEncryptionKey(password);
+        await keyManager.EncryptData(mnemonic);
         return mnemonic;
     };
-    public async generateSolanaKeyPair(){
-        const mnemonic = localStorage.getItem("mnemonic");
-        if (!mnemonic){
+
+    public async generateSolanaKeyPair(password: string) {
+        const mnemonic = await keyManager.DecryptData(password);
+        if (!mnemonic) {
             console.log("Mnemonic doesn't exists");
             return;
         }
@@ -28,18 +38,20 @@ class KeyRing {
         this.keyPairMap.set(keyPair.publicKey.toBase58(), keyPair.secretKey);
         return keyPair.publicKey;
     };
-    public getKeyPair(key : string){
+
+    public getKeyPair(key: string) {
         const privateKey = this.keyPairMap.get(key);
-        if (!privateKey){
+        if (!privateKey) {
             return;
         }
         const pair = {
-            publicKey : new PublicKey(key),
-            secretKey : privateKey
+            publicKey: new PublicKey(key),
+            secretKey: privateKey
         };
         return pair;
     };
-    public getAllWallets(){
+
+    public getAllWallets() {
         const keys = Array.from(this.keyPairMap.keys());
         return keys;
     }

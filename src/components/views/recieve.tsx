@@ -5,7 +5,6 @@ import { copy } from '@/lib/copyToClipboard';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { getAirDrop } from '@/background/get-devnet-sol';
-import { Toaster } from '../ui/sonner';
 import { toast } from 'sonner';
 
 const ReceiveToken = () => {

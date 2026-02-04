@@ -39,7 +39,10 @@ type UIState = {
   setSelectedWallet : (publicKey : string)=> void;
 
   network : AppNetwork;
-  setNetwork : (s : AppNetwork)=>void
+  setNetwork : (s : AppNetwork)=>void;
+
+  password : string | null;
+  setPass : (password : string) => void;
 };
 
 export const useUIStore = create<UIState>((set) => ({
@@ -52,7 +55,13 @@ export const useUIStore = create<UIState>((set) => ({
   selectedWallet : null,
 
   network : "MAINNET",
+  password : null,
 
+  setPass : (password : string)=>{
+    set({
+      password : password
+    })
+  },
   setNetwork : (network : AppNetwork) => set({network : network}),
   setScreen: (screen) => set({ screen }),
   setLoading: (loading) => set({ loading }),
