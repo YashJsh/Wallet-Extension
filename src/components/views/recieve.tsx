@@ -75,6 +75,11 @@ const ReceiveToken = () => {
               {copied ? "COPIED" : "COPY ADDRESS"}
             </Button>
           </div>
+          <div className="p-4 bg-amber-500/10 border border-amber-500/20 rounded-2xl">
+            <p className="text-amber-500 text-[11px] font-bold leading-tight">
+              To get Test tokens, Switch the network to devnet.
+            </p>
+          </div>
         </div>
       ) : (
         /* DEVNET VIEW */

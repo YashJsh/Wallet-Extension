@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { checkPassword } from '@/background/key-management';
 import { useUIStore } from '@/store/uiStore';
 import keyring from '@/background/keyring';
+import { toast } from 'sonner';
 
 export const UnlockWallet = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -14,11 +15,15 @@ export const UnlockWallet = () => {
 
   const handleSubmit = async ()=>{
     if (!password){
+        toast(
+          "Enter Password"
+        )
         return;
     }    
-    const check = checkPassword(password);
+    const check = await checkPassword(password);
     if (!check){
         setError("Password didn't match");
+        toast("Wrong Password");
         return;
     }
     const key = await keyring.restoreSolanaWallets(password);
@@ -28,7 +33,7 @@ export const UnlockWallet = () => {
   }
 
   return (
-    <div className="w-[360px] h-[600px] bg-background flex flex-col p-8 font-sans text-foreground relative overflow-hidden">
+    <div className="w-[380px] h-[600px] bg-background flex flex-col p-8 font-sans text-foreground relative overflow-hidden">
       {/* Decorative Background Glows */}
       <div className="absolute top-[-20%] left-[-20%] w-[250px] h-[250px] bg-primary/10 blur-[100px] rounded-full"></div>
       <div className="absolute bottom-[-20%] right-[-20%] w-[250px] h-[250px] bg-primary/10 blur-[100px] rounded-full"></div>

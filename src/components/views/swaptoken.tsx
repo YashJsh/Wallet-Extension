@@ -241,7 +241,7 @@ const SwapPage = () => {
         <Button
           className="w-full h-15 bg-primary hover:bg-primary/90 text-primary-foreground font-black text-base rounded-[20px] shadow-lg transition-all active:scale-[0.98]"
           onClick={sendSwap}
-          disabled={loading}
+          disabled={loading || balance < Number(topValue)}
         >
           {loading ? <Loader2 className="animate-spin" /> : "Swap"}
         </Button>
