@@ -71,6 +71,7 @@ const Dashboard = () => {
           <span className="text-[10px] font-mono text-muted-foreground group-hover:text-foreground"
             onClick={() => {
               copy(publicKey!);
+              toast.message("Public Key Copied");
             }}
           >{publicKey}</span>
         </div>

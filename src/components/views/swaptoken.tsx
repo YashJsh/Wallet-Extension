@@ -5,10 +5,9 @@ import {
 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { useUIStore } from '@/store/uiStore';
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getQuote, swapTransaction, tokens } from '@/background/swap';
 import keyring from '@/background/keyring';
-import { Toaster } from '../ui/sonner';
 import { toast } from 'sonner';
 
 const TOKEN_DECIMALS: Record<string, number> = {
@@ -25,41 +24,84 @@ const SwapPage = () => {
   const [bottomValue, setBottomValue] = useState("");
   const [transferVia, setTransferVia] = useState("");
   const [quote, setQuote] = useState<any>();
+  const pollingRef = useRef<number | null>(null);
+  const isFetchingRef = useRef(false);
 
   const getValue = async () => {
-    if (!topValue || topValue === "0") return;
-
-    const topDecimals = TOKEN_DECIMALS[topToken];
-    const bottomDecimals = TOKEN_DECIMALS[bottomToken];
-
-    const amount = Math.floor(Number(topValue) * 10 ** topDecimals);
-    const slippage = 50;
-
-    let inputMint = null;
-    let outputMint = null;
-
-    if (topToken === "SOL") {
-      inputMint = tokens.sol;
-      outputMint = tokens.usdc;
-    } else {
-      inputMint = tokens.usdc;
-      outputMint = tokens.sol;
+    if (!topValue || topValue === "0") {
+      setBottomValue("");
+      setBottomTokenRate("");
+      return;
     }
+    if (isFetchingRef.current) return null;
+    isFetchingRef.current = true;
 
-    const response = await getQuote(inputMint, outputMint, amount, slippage);
+    try {
 
-    // Convert outAmount based on output decimals
-    const outAmount = Number(response.data.outAmount);
-    const convertedOut = outAmount / 10 ** bottomDecimals;
 
-    setBottomValue(convertedOut.toString());
-    setBottomTokenRate(Number(response.data.tokenValue).toFixed(2));
-    setTransferVia(response.data.routeTaken);
-    setQuote(response.quoteResponse);
+
+      const topDecimals = TOKEN_DECIMALS[topToken];
+      const bottomDecimals = TOKEN_DECIMALS[bottomToken];
+
+      const amount = Math.floor(Number(topValue) * 10 ** topDecimals);
+      const slippage = 50;
+
+      let inputMint = null;
+      let outputMint = null;
+
+      if (topToken === "SOL") {
+        inputMint = tokens.sol;
+        outputMint = tokens.usdc;
+      } else {
+        inputMint = tokens.usdc;
+        outputMint = tokens.sol;
+      }
+
+      const response = await getQuote(inputMint, outputMint, amount, slippage);
+
+      // Convert outAmount based on output decimals
+      const inAmountHuman = Number(response.data.inAmount) / 10 ** topDecimals;
+      const outAmountHuman = Number(response.data.outAmount) / 10 ** bottomDecimals;
+      const rate = outAmountHuman / inAmountHuman;
+
+      setBottomValue(outAmountHuman.toString());
+      setBottomTokenRate(rate.toFixed(6));
+      setTransferVia(response.data.routeTaken);
+      setQuote(response.quoteResponse);
+    } catch (error) {
+      console.error(error);
+      return null;
+    } finally {
+      isFetchingRef.current = false;
+    }
+  };
+
+  const startPolling = () => {
+    if (pollingRef.current) return;
+    pollingRef.current = window.setInterval(() => {
+      getValue();
+    }, 1000);
+  };
+
+  const stopPolling = () => {
+    if (pollingRef.current) {
+      clearInterval(pollingRef.current);
+      pollingRef.current = null;
+    }
   };
 
   useEffect(() => {
+    if (!topValue || topValue === "0") {
+      stopPolling();
+      setBottomValue("");
+      setBottomTokenRate("");
+      return;
+    }
+
     getValue();
+    startPolling();
+
+    return () => stopPolling();
   }, [topValue, topToken]);
 
   const handleSwapTokens = () => {
@@ -86,14 +128,14 @@ const SwapPage = () => {
     const keyPair = keyring.getKeyPair(publicKey);
     if (!keyPair) return;
 
-    try{
+    try {
       await swapTransaction(quote, keyPair);
       toast("Swap Completed");
       setScreen("HOME");
-    }catch(error){
+    } catch (error) {
       toast("Error in swapping Token");
       console.error(error);
-    }finally{
+    } finally {
       setLoading(false);
     }
   };
@@ -169,7 +211,7 @@ const SwapPage = () => {
                 <span className="text-xs font-medium capitalize tracking-tighter">conversion</span>
               </div>
               <span className="text-xs font-bold text-foreground/80">
-                1 SOL ~ {bottomTokenRate} USDC
+                1 {topToken} ~ {bottomTokenRate} {bottomToken}
               </span>
             </div>
             <div className="flex justify-between items-center">
@@ -196,7 +238,7 @@ const SwapPage = () => {
 
       {/* ACTION BUTTON */}
       <div className="pb-4">
-        <Button 
+        <Button
           className="w-full h-15 bg-primary hover:bg-primary/90 text-primary-foreground font-black text-base rounded-[20px] shadow-lg transition-all active:scale-[0.98]"
           onClick={sendSwap}
           disabled={loading}
