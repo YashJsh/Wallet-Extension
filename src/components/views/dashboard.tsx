@@ -16,40 +16,40 @@ import {
 import { useUIStore, type AppNetwork } from '@/store/uiStore';
 import { copy } from '@/lib/copyToClipboard';
 import { getAccountBalance } from '@/background/accountBalance';
-import { getTokenPrice } from '@/background/get-prices';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import { Button } from '../ui/button';
+import { toast } from 'sonner';
 
 const Dashboard = () => {
   const { setScreen, publicKey, balance, network, setNetwork, setBalance, loading, setLoading } = useUIStore();
 
   useEffect(() => {
-  const getBalance = async () => {
-    if (!publicKey) return;
+    const getBalance = async () => {
+      if (!publicKey) return;
 
-    setLoading(true);
-    try {
-      const bal = await getAccountBalance(publicKey, network);
-      setBalance(bal);
-    } finally {
-      setLoading(false);
-    }
-  };
+      setLoading(true);
+      try {
+        const bal = await getAccountBalance(publicKey, network);
+        setBalance(bal);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  getBalance();
-}, [publicKey, network]);
+    getBalance();
+  }, [publicKey, network]);
 
 
   if (loading) {
-  return (
-    <div className="w-[360px] h-[600px] bg-background flex items-center justify-center">
-      <Loader className="animate-spin" />
-    </div>
-  );
-}
+    return (
+      <div className="w-[380px] h-[600px] bg-background flex items-center justify-center">
+        <Loader className="animate-spin" />
+      </div>
+    );
+  }
 
   return (
-    <div className="w-[360px] h-[600px] bg-background flex flex-col relative font-sans text-foreground overflow-hidden">
+    <div className="w-[380px] h-[600px] bg-background flex flex-col relative font-sans text-foreground overflow-hidden">
 
       {/* Top Header */}
       <header className="flex justify-between items-center p-6 shrink-0">
@@ -76,7 +76,7 @@ const Dashboard = () => {
         </div>
 
         <p className="text-muted-foreground text-xs font-bold uppercase tracking-[0.2em] mb-2">Total Balance</p>
-        <h1 className="text-2xl font-black tracking-tighter mb-4">{balance/LAMPORTS_PER_SOL} SOL</h1>
+        <h1 className="text-2xl font-black tracking-tighter mb-4">{balance / LAMPORTS_PER_SOL} SOL</h1>
       </div>
 
       {/* Main Action Buttons - Minimalist Row */}
@@ -95,10 +95,10 @@ const Dashboard = () => {
           </div>
 
           <div className="flex flex-col items-center gap-3">
-            <button className="w-16 h-16 bg-primary hover:bg-secondary/80 text-primary-foreground rounded-[22px] flex items-center justify-center border border-border shadow-xl active:scale-90 transition-all cursor-pointer"
-            onClick={()=>{
-              setScreen("RECIEVE");
-            }}>
+            <button className="w-16 h-16 bg-primary hover:bg-primary/80 text-primary-foreground rounded-[22px] flex items-center justify-center border border-border shadow-xl active:scale-90 transition-all cursor-pointer"
+              onClick={() => {
+                setScreen("RECIEVE");
+              }}>
               <ArrowDownLeft size={28} />
             </button>
             <span className="text-[10px] font-black tracking-widest text-muted-foreground">RECEIVE</span>
@@ -106,9 +106,12 @@ const Dashboard = () => {
 
           <div className="flex flex-col items-center gap-3">
             <button className="w-16 h-16 bg-primary hover:bg-primary/90 text-primary-foreground rounded-[22px] flex items-center justify-center border border-border shadow-xl active:scale-90 transition-all cursor-pointer"
-              disabled={network==="DEVNET"}
               onClick={() => {
-                setScreen("SWAP")
+                if (network === "DEVNET") {
+                  toast.warning("Swap is available only on Mainnet");
+                  return;
+                }
+                setScreen("SWAP");
               }}
             >
               <RefreshCcw size={28} />

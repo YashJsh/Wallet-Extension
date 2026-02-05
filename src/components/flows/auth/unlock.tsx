@@ -10,7 +10,7 @@ export const UnlockWallet = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState<string | null>();
   const [error, setError] = useState<string | null>();
-  const { setScreen } = useUIStore();
+  const { setScreen, setPublicKey, setPass } = useUIStore();
 
   const handleSubmit = async ()=>{
     if (!password){
@@ -21,7 +21,9 @@ export const UnlockWallet = () => {
         setError("Password didn't match");
         return;
     }
-    await keyring.generateSolanaKeyPair(password);
+    const key = await keyring.restoreSolanaWallets(password);
+    setPass(password);
+    setPublicKey(key!);
     setScreen("HOME");
   }
 

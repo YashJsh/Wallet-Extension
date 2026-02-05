@@ -5,7 +5,7 @@ import { useUIStore } from '@/store/uiStore';
 export const Welcome = () => {
   const { setScreen } = useUIStore();
   return (
-    <div className="w-[360px] h-[600px] bg-background flex flex-col items-center justify-center p-8 relative overflow-hidden font-sans text-foreground">
+    <div className="w-[380px] h-[600px] bg-background flex flex-col items-center justify-center p-8 relative overflow-hidden font-sans text-foreground">
       <div className="absolute top-[-10%] left-[-10%] w-[150px] h-[150px] bg-primary/10 blur-[80px] rounded-full"></div>
       <div className="absolute bottom-[-10%] right-[-10%] w-[150px] h-[150px] bg-primary/10 blur-[80px] rounded-full"></div>
 
@@ -39,7 +39,6 @@ export const Welcome = () => {
       <p className="mt-6 text-[11px] text-muted-foreground font-medium tracking-wide">
         SECURE • NON-CUSTODIAL • FAST
       </p>
-
     </div>
   );
 };

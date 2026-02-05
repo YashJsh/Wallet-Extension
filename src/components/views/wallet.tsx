@@ -4,7 +4,7 @@ import { useUIStore } from "@/store/uiStore";
 export const WalletSetupOptions = () => {
   const {setScreen} = useUIStore();
   return (
-    <div className="w-[360px] h-[600px] bg-background flex flex-col p-6 text-foreground relative overflow-hidden">
+    <div className="w-[380px] h-[600px] bg-background flex flex-col p-6 text-foreground relative overflow-hidden">
       
       {/* Decorative background glow */}
       <div className="absolute top-0 right-0 w-[200px] h-[200px] bg-primary/5 blur-[100px] rounded-full" />

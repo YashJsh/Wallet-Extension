@@ -44,7 +44,7 @@ const ReceiveToken = () => {
   };
 
   return (
-    <div className="w-[360px] h-[600px] bg-background flex flex-col p-6 text-foreground font-sans">
+    <div className="w-[380px] h-[600px] bg-background flex flex-col p-6 text-foreground font-sans">
       {/* Header */}
       <div className="flex items-center gap-4 mb-8">
         <button 

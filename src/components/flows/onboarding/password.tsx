@@ -46,7 +46,7 @@ const CreatePassword = () => {
     const isValid =
         password!.length >= 8 && password === confirmPassword;
     return (
-        <div className="w-[360px] h-[600px] bg-background flex flex-col p-6 font-sans text-foreground relative overflow-hidden">
+        <div className="w-[380px] h-[600px] bg-background flex flex-col p-6 font-sans text-foreground relative overflow-hidden">
             {/* Header Section */}
             <div className="mt-6 mb-10 flex flex-col justify-center items-center text-center">
                 <h1 className="text-2xl font-bold mb-2">Create Password</h1>

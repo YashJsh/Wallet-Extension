@@ -1,9 +1,6 @@
 import './App.css'
 import { useEffect } from 'react'
 import { useUIStore } from './store/uiStore'
-
-
-// imports...
 import ConfirmTransaction from './components/flows/sign/confirmSwap'
 import MnemonicDisplay from './components/flows/onboarding/createMnemonic'
 import Dashboard from './components/views/dashboard'

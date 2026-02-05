@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 
 const ConfirmTransaction = () => {
   return (
-    <div className="w-[360px] h-[600px] bg-background flex flex-col p-6 font-sans text-foreground relative overflow-hidden">
+    <div className="w-[380px] h-[600px] bg-background flex flex-col p-6 font-sans text-foreground relative overflow-hidden">
       
       {/* Header */}
       <div className="flex items-center gap-4 mb-8">

@@ -4,12 +4,12 @@ import { copy } from '@/lib/copyToClipboard';
 import { useUIStore } from '@/store/uiStore';
 import keyring from '@/background/keyring';
 import { type PublicKey } from '@solana/web3.js';
+import { Button } from '../ui/button';
 
 export const SpecificWalletAccount = () => {
   const [showPublic, setShowPublic] = useState(false);
   const [showPrivate, setShowPrivate] = useState(false);
-
-  const { selectedWallet, setScreen } = useUIStore();
+  const { selectedWallet, setScreen, setPublicKey} = useUIStore();
   const [pair, setPair] = useState<{
     publicKey: PublicKey;
     secretKey: Uint8Array;
@@ -22,7 +22,7 @@ export const SpecificWalletAccount = () => {
   }, [selectedWallet]);
 
   return (
-    <div className="w-[360px] h-[600px] bg-background text-foreground flex flex-col p-6 font-sans relative overflow-hidden">
+    <div className="w-[380px] h-[600px] bg-background text-foreground flex flex-col p-6 font-sans relative overflow-hidden">
 
       {/* Header */}
       <div className="flex items-center gap-3 mb-6">
@@ -98,6 +98,13 @@ export const SpecificWalletAccount = () => {
           </div>
         </div>
       </div>
+
+        <Button className='w-full px-2 py-2 uppercase tracking-tighter font-semibold cursor-pointer' 
+        onClick={()=>{
+          setPublicKey(selectedWallet!);
+          setScreen("HOME");
+        }}>Set as Primary</Button>
+      
 
       {/* Safety Warning */}
       <div className="mt-4 p-4 bg-destructive/10 border border-destructive/20 rounded-2xl">

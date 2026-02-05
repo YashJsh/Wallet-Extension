@@ -8,6 +8,8 @@ import { useUIStore } from '@/store/uiStore';
 import { useEffect, useState } from "react";
 import { getQuote, swapTransaction, tokens } from '@/background/swap';
 import keyring from '@/background/keyring';
+import { Toaster } from '../ui/sonner';
+import { toast } from 'sonner';
 
 const TOKEN_DECIMALS: Record<string, number> = {
   SOL: 9,
@@ -77,19 +79,27 @@ const SwapPage = () => {
   };
 
   const sendSwap = async () => {
+    toast("Swapping Token");
     setLoading(true);
     if (!publicKey) return;
 
     const keyPair = keyring.getKeyPair(publicKey);
     if (!keyPair) return;
 
-    await swapTransaction(quote, keyPair);
-    setLoading(false);
-    setScreen("HOME");
+    try{
+      await swapTransaction(quote, keyPair);
+      toast("Swap Completed");
+      setScreen("HOME");
+    }catch(error){
+      toast("Error in swapping Token");
+      console.error(error);
+    }finally{
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="w-[360px] h-[600px] bg-background flex flex-col p-6 font-sans text-foreground relative overflow-hidden">
+    <div className="w-[380px] h-[600px] bg-background flex flex-col p-6 font-sans text-foreground relative overflow-hidden">
 
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
@@ -123,7 +133,7 @@ const SwapPage = () => {
         </div>
 
         {/* SWAP BUTTON */}
-        <div className="flex justify-center items-center mt-[-10px] z-10">
+        <div className="flex justify-center items-center mt-[-1px] z-10">
           <Button
             variant="outline"
             className="rounded-full bg-card border border-border"

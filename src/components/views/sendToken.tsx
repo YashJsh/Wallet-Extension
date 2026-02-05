@@ -5,13 +5,13 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useUIStore } from '@/store/uiStore';
+import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 
 export const SendToken = () => {
     const {setScreen, balance} = useUIStore();
     return (
-        <div className="w-[360px] h-[600px] bg-background flex flex-col p-6 font-sans text-foreground relative overflow-hidden">
+        <div className="w-[380px] h-[600px] bg-background flex flex-col p-6 font-sans text-foreground relative overflow-hidden">
 
-            {/* Header */}
             <div className="flex items-center gap-4 mb-8">
                 <button className="w-10 h-10 -ml-2 flex items-center justify-center rounded-full hover:bg-accent transition text-muted-foreground hover:text-foreground"
                 onClick={()=>{
@@ -44,7 +44,7 @@ export const SendToken = () => {
                             Amount
                         </label>
                         <span className="text-[10px] font-bold text-muted-foreground">
-                            Balance: {balance}
+                            Balance: {balance/LAMPORTS_PER_SOL}
                         </span>
                     </div>
                     <div className="relative group">

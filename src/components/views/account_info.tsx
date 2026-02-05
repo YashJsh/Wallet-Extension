@@ -4,15 +4,16 @@ import { useUIStore } from '@/store/uiStore';
 import { useEffect, useState } from 'react';
 
 export const WalletManager = () => {
-  const { setScreen, setSelectedWallet, setPublicKey } = useUIStore();
+  const { setScreen, setSelectedWallet, setPublicKey, password } = useUIStore();
   const [wallets, setWallets] = useState<string[]>([]);
 
   const createWallet = async () => {
-    // const publicKey = await keyring.generateSolanaKeyPair();
-    // if (!publicKey) return;
-
-    // setWallets(keyring.getAllWallets()); 
-    // setPublicKey(publicKey.toBase58());
+    if (!password){
+      return;
+    }
+    const publicKey = await keyring.createNewWallet(password);
+    if (!publicKey) return;
+    setPublicKey(publicKey.toBase58());
     setScreen("HOME");
   };
 
@@ -21,7 +22,7 @@ export const WalletManager = () => {
   }, []);
 
   return (
-    <div className="w-[360px] h-[600px] bg-background text-foreground flex flex-col p-6 font-sans relative">
+    <div className="w-[380px] h-[600px] bg-background text-foreground flex flex-col p-6 font-sans relative">
 
       {/* Header */}
       <div className="mb-8">

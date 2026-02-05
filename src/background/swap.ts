@@ -1,6 +1,8 @@
 import { PublicKey, VersionedTransaction } from "@solana/web3.js";
 import axios from "axios";
 
+const API_KEY = import.meta.env.VITE_JUPITER_API_KEY;
+
 export const tokens = {
     sol : "So11111111111111111111111111111111111111112",
     usdc : "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
@@ -12,6 +14,7 @@ export const getQuote = async (
     amount : number,
     slippageBps : number
 )=>{
+    
     const quoteResponse = await axios.get(
         'https://api.jup.ag/swap/v1/quote?' +
         `inputMint=${inputMint}` +
@@ -22,7 +25,7 @@ export const getQuote = async (
         ,
         {
             headers: {
-                'x-api-key': 'b341f5b4-8381-40f5-a140-82e4eb16cc3d',
+                'x-api-key': API_KEY,
             },
         }
     );
@@ -45,7 +48,7 @@ export const swapTransaction = async (quoteResponse : any, keyPair : { publicKey
         },
         {
                 headers: {
-                    'x-api-key': 'b341f5b4-8381-40f5-a140-82e4eb16cc3d',
+                    'x-api-key': API_KEY,
                 },
         }
     )

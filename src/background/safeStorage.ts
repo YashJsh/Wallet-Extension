@@ -1,12 +1,13 @@
-import { pbkdf2, pbkdf2Sync, randomBytes } from "node:crypto";
+import { pbkdf2, randomBytes } from "node:crypto";
 import nacl from "tweetnacl"
 
+const salt = import.meta.env.VITE_APP_SALT;
 
 class KeyManagment {
     private EncryptionKey: Uint8Array | null = null;
     public async GenerateEncryptionKey(password: string) {
         return new Promise<void>((resolve, reject)=>{
-            pbkdf2(password, "Salt", 200_000, 32, "sha512", (err, derived)=>{
+            pbkdf2(password, salt, 200_000, 32, "sha512", (err, derived)=>{
                 if (err) return reject(err);
                 this.EncryptionKey = new Uint8Array(derived);
                 resolve();

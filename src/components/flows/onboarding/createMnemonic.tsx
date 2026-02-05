@@ -14,21 +14,19 @@ export const MnemonicDisplay = () => {
     if (!password) return;
 
     const run = async () => {
-      console.log("Runnign");
       const mnem = await keyring.generateMnemonic(password);
       setMnemonic(mnem);
 
-      const key = await keyring.generateSolanaKeyPair(password);
+      const key = await keyring.createNewWallet(password);
       if (key) setPublicKey(key.toBase58());
     };
-
     run();
   }, [password]);
 
 
   if (!mnemonic) {
     return (
-      <div className="w-[360px] h-[600px] flex items-center justify-center">
+      <div className="w-[380px] h-[600px] flex items-center justify-center">
         <span className="text-sm text-muted-foreground">
           Generating recovery phrase…
         </span>
@@ -45,7 +43,7 @@ export const MnemonicDisplay = () => {
   };
 
   return (
-    <div className="w-[360px] h-[600px] bg-background flex flex-col p-6 font-sans text-foreground relative overflow-hidden">
+    <div className="w-[380px] h-[600px] bg-background flex flex-col p-6 font-sans text-foreground relative overflow-hidden">
 
       {/* Back Button */}
       <button className="w-10 h-10 -ml-2 flex items-center justify-center rounded-full hover:bg-accent transition text-muted-foreground">
