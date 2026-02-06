@@ -11,6 +11,7 @@ import keyring from "./keyring";
 import type { AppNetwork } from "@/store/uiStore";
 
 export const sendSol = async (publicKey: string, to: string, amount: number, network : AppNetwork) => {
+    console.log(amount);
     let networkUrl;
     if (network === "DEVNET"){
         networkUrl = clusterApiUrl("devnet");
@@ -21,20 +22,24 @@ export const sendSol = async (publicKey: string, to: string, amount: number, net
         commitment: "confirmed",
     });
     const payer = new PublicKey(publicKey);
-
     const balance = await connection.getBalance(payer);
     const bal = balance / LAMPORTS_PER_SOL;
-    if (bal < amount) return;
+    console.log(amount);
+    console.log(bal);
+    if (bal < amount) {
+        console.log("Not enough balance");
+        return;
+    }
 
     const keyPair = keyring.getKeyPair(publicKey);
 
     if (!keyPair) {
+        console.log("Key Pair not found");
         return "Wallet Not Found"
     }
 
     try {
         const { blockhash } = await connection.getLatestBlockhash();
-
         const transaction = new Transaction({
             feePayer: payer,
             recentBlockhash: blockhash,

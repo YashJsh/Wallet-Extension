@@ -36,7 +36,11 @@ export const SendToken = () => {
       const response = await sendSol(publicKey!, address, Number(amount), network);
 
       if (response) {
+        toast.success("Transaction successfull!");
         toast.success(`Signature: ${response}`);
+        setAmount("");
+        setAddress("");
+        setScreen("HOME");
       } else {
         toast.error("Transfer failed");
       }
