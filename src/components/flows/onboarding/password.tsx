@@ -34,10 +34,7 @@ const CreatePassword = () => {
             setError(validationError);
             return;
         }
-
         setError(null);
-
-        console.log("Password created:", password);
         setPass(password);
         setScreen("MNEMONICDISPLAY");
         await createPasswordVerifier(password);

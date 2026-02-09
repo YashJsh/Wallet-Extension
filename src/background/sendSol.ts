@@ -11,7 +11,6 @@ import keyring from "./keyring";
 import type { AppNetwork } from "@/store/uiStore";
 
 export const sendSol = async (publicKey: string, to: string, amount: number, network : AppNetwork) => {
-    console.log(amount);
     let networkUrl;
     if (network === "DEVNET"){
         networkUrl = clusterApiUrl("devnet");
@@ -24,8 +23,6 @@ export const sendSol = async (publicKey: string, to: string, amount: number, net
     const payer = new PublicKey(publicKey);
     const balance = await connection.getBalance(payer);
     const bal = balance / LAMPORTS_PER_SOL;
-    console.log(amount);
-    console.log(bal);
     if (bal < amount) {
         console.log("Not enough balance");
         return;
