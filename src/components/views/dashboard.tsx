@@ -19,6 +19,7 @@ import { getAccountBalance } from '@/background/accountBalance';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import { Button } from '../ui/button';
 import { toast } from 'sonner';
+import TokenList from './TokenList';
 
 const Dashboard = () => {
   const { setScreen, publicKey, balance, network, setNetwork, setBalance, loading, setLoading } = useUIStore();
@@ -77,7 +78,7 @@ const Dashboard = () => {
         </div>
 
         <p className="text-muted-foreground text-xs font-bold uppercase tracking-[0.2em] mb-2">Total Balance</p>
-        <h1 className="text-2xl font-black tracking-tighter mb-4">{balance / LAMPORTS_PER_SOL} SOL</h1>
+        <h1 className="text-2xl font-black tracking-tighter mb-2">{balance / LAMPORTS_PER_SOL} SOL</h1>
       </div>
 
       {/* Main Action Buttons - Minimalist Row */}
@@ -134,6 +135,10 @@ const Dashboard = () => {
             </SelectContent>
           </Select>
         </div>
+        <div className='mt-5'>
+              <TokenList />
+        </div>
+        
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import type { UserTokens } from "@/background/getUserTokens";
 
 type Screen =
   | "ONBOARDING"
@@ -43,6 +44,9 @@ type UIState = {
 
   password : string | null;
   setPass : (password : string) => void;
+
+  tokens : UserTokens[];
+  setTokens : (tokens : UserTokens[]) => void;
 };
 
 export const useUIStore = create<UIState>((set) => ({
@@ -56,6 +60,7 @@ export const useUIStore = create<UIState>((set) => ({
 
   network : "MAINNET",
   password : null,
+  tokens : [],
 
   setPass : (password : string)=>{
     set({
@@ -78,6 +83,12 @@ export const useUIStore = create<UIState>((set) => ({
   setSelectedWallet : (publicKey : string)=>{
     set({
       selectedWallet : publicKey
+    })
+  },
+
+  setTokens : (tokens : UserTokens[])=>{
+    set({
+      tokens : tokens
     })
   }
 }));
